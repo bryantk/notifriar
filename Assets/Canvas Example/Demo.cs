@@ -3,13 +3,16 @@ using System.Collections;
 
 public class Demo : MonoBehaviour {
 
+    bool pause = false;
+    bool hide = false;
+
     // Use this for initialization
     void Start() {
         StartCoroutine(Play());
     }
 
     IEnumerator Play() {
-
+        Notifriar.EnqueueMessage("Long Message", ttl:5);
         Notifriar.EnqueueMessage("Hello");
         yield return new WaitForSeconds(1.5f);
         Notifriar.EnqueueMessage("Times called: ", 1, hashCode:"counter");
@@ -37,6 +40,18 @@ public class Demo : MonoBehaviour {
 
         if (GUI.Button(new Rect(10, 70, 100, 50), "Sprite"))
             Notifriar.EnqueueMessage("sprite me", spriteName: "mark");
+
+        if (GUI.Button(new Rect(140, 10, 100, 50), pause ? "Resume" : "Pause"))
+        {
+            if (pause)
+                Notifriar.Resume();
+            else
+                Notifriar.Pause(hide);
+            pause = !pause;
+        }
+
+        if (GUI.Button(new Rect(160, 60, 100, 20), hide ? "hide" : "show"))
+            hide = !hide;
 
     }
 }
